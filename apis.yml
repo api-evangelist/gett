@@ -1,0 +1,72 @@
+name: Gett
+description: >
+  Gett is a corporate ground transportation platform offering a REST API for
+  booking on-demand and pre-scheduled rides, managing business travel accounts,
+  handling employee records, accessing order receipts, and integrating with
+  expense management systems. The API supports multi-passenger, multi-stop,
+  and multi-dropoff scenarios and connects businesses with a global supplier
+  network of taxis, black cars, and private-hire vehicles.
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Ground Transportation
+  - Corporate Travel
+  - Ride Booking
+  - Business Travel
+  - Expense Management
+created: '2026-06-13'
+modified: '2026-06-13'
+url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/apis.yml
+specificationVersion: '0.19'
+apis:
+  - name: Gett Business API
+    description: >
+      REST API for corporate ground transportation that enables businesses to
+      book on-demand and pre-scheduled rides (up to 30 days in advance),
+      manage employees, retrieve reports, access receipts, and receive
+      real-time webhook notifications about order status changes.
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developer.gett.com/docs/introduction
+    baseURL: https://business-api.gett.com
+    tags:
+      - Ride Booking
+      - Corporate Travel
+      - Employee Management
+      - Business Reports
+      - Webhooks
+    properties:
+      - type: Documentation
+        url: https://developer.gett.com/docs/introduction
+      - type: Authentication
+        url: https://developer.gett.com/docs/authorization
+      - type: BookingRequests
+        url: https://developer.gett.com/docs/booking-requests
+      - type: Webhooks
+        url: https://developer.gett.com/docs/webhooks
+      - type: StatusPage
+        url: https://gett2.statuspage.io/
+      - type: Plans
+        url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/plans/plans.yml
+      - type: RateLimits
+        url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/rate-limits/rate-limits.yml
+      - type: FinOps
+        url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/finops/finops.yml
+    contact:
+      - FN: Gett Developer Support
+        url: https://developer.gett.com/docs/contact-us
+common:
+  - type: Documentation
+    url: https://developer.gett.com/docs/introduction
+  - type: Authentication
+    url: https://developer.gett.com/docs/authorization
+  - type: StatusPage
+    url: https://gett2.statuspage.io/
+  - type: Plans
+    url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/plans/plans.yml
+  - type: RateLimits
+    url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/rate-limits/rate-limits.yml
+  - type: FinOps
+    url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/finops/finops.yml
+maintainers:
+  - FN: API Evangelist
+    url: https://apievangelist.com
+    email: info@apievangelist.com

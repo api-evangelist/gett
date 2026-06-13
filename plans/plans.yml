@@ -1,0 +1,50 @@
+name: Gett Business API Plans
+description: >
+  Gett Business API access is available to corporate customers who have an
+  approved business account with Gett. API credentials are issued through the
+  Gett business web portal under Settings > Integrations. Gett does not
+  publish self-service tiered pricing for API access; enterprise pricing is
+  negotiated directly with Gett sales teams based on ride volume, geographic
+  coverage, and integration requirements.
+plans:
+  - name: Corporate Business API
+    description: >
+      Full access to the Gett Business API for approved corporate accounts.
+      Includes ride booking (on-demand and pre-book up to 30 days in advance),
+      employee management, business reports, receipt retrieval, and webhook
+      event notifications. API credentials (Client ID, Client Secret,
+      Business ID) are provisioned via the Gett business portal.
+    type: enterprise
+    access: approval-required
+    authentication:
+      type: OAuth 2.0 Client Credentials
+      tokenEndpoint: https://business-api.gett.com/oauth/token
+      grantType: client_credentials
+    scopes:
+      - name: order
+        description: >
+          Access to company settings, products, and order management
+          (create, view, update, cancel rides).
+      - name: company.reference
+        description: Reference code management for one-time codes.
+      - name: finance
+        description: Access to order receipts and financial records.
+    features:
+      - On-demand ride booking
+      - Pre-book rides up to 30 days in advance
+      - Multi-passenger and multi-stop rides
+      - Employee lifecycle management (add, update, delete, retrieve)
+      - Business reports and order history
+      - Receipt and expense data retrieval
+      - Webhook notifications for order status changes
+      - Sandbox environment for testing (Private Bookings)
+      - SFTP data feed integration
+      - Deeplink integration support
+      - Global supplier network access
+    contact:
+      url: https://developer.gett.com/docs/contact-us
+    portal:
+      url: https://business.gett.com/settings/integrations
+      description: >
+        Business portal where admin users can configure API credentials
+        under Settings > Integrations Setup.

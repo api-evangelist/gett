@@ -1,0 +1,33 @@
+name: Gett Business API Rate Limits
+description: >
+  The Gett Business API enforces per-account rate limits on all requests.
+  Exceeding these limits results in HTTP 429 Too Many Requests responses.
+  Clients should implement exponential back-off and retry logic when
+  encountering 429 errors.
+limits:
+  - name: Default Request Rate
+    description: >
+      All Gett Business API requests per account are limited to 16 requests
+      per second by default. This limit applies across all endpoints and
+      scopes for a given business account.
+    rate: 16
+    unit: requests per second
+    scope: per account
+    enforced: true
+    errorCode: 429
+    errorMessage: Too Many Requests
+    notes: >
+      Businesses with high-volume requirements should contact Gett to discuss
+      custom rate limit arrangements. Avoid hardcoding product IDs as Gett
+      frequently updates these based on supplier and location changes.
+headers:
+  - name: HTTP 429
+    description: >
+      Returned when the per-account rate limit of 16 requests per second is
+      exceeded. Clients should back off and retry after a short delay.
+recommendations:
+  - Implement retry logic with exponential back-off on 429 responses.
+  - Cache product and supplier lookups where possible to reduce request volume.
+  - Use webhook subscriptions for order status updates instead of polling
+    the API repeatedly.
+  - Batch employee management operations where feasible.

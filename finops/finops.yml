@@ -1,0 +1,62 @@
+name: Gett Business API FinOps
+description: >
+  Gett Business API financial operations guidance covers cost management,
+  expense integration, receipt access, and budget controls for corporate
+  ground transportation. Gett is designed for enterprise expense reporting
+  and integrates with platforms such as SAP Concur. API pricing for access
+  is not publicly listed and is established through direct enterprise
+  agreements with Gett sales.
+cost:
+  model: enterprise-agreement
+  publicPricing: false
+  notes: >
+    Gett does not publish self-service API pricing. Access is granted to
+    approved corporate customers; ride charges are billed to the corporate
+    account according to negotiated business rates. Contact Gett sales for
+    pricing details.
+  contact:
+    url: https://developer.gett.com/docs/contact-us
+expense:
+  receipts:
+    available: true
+    scope: finance
+    description: >
+      The finance scope provides access to order receipts and expense data
+      via the Gett Business API. Receipts can be retrieved per order for
+      integration with corporate expense management workflows.
+    endpoint: https://business-api.gett.com
+  integrations:
+    - name: SAP Concur
+      url: https://www.concur.com/app-center/listings/5e8e8dd3b44fd6001351609f
+      description: >
+        Gett is listed in the SAP Concur App Center, enabling automatic
+        receipt and expense synchronization for corporate travellers.
+  sftp:
+    available: true
+    description: >
+      SFTP data feeds are available as an alternative to real-time API
+      calls for bulk expense and order data synchronization with enterprise
+      financial systems.
+costControl:
+  budgetPolicies:
+    description: >
+      Corporate administrators can configure spending policies and employee
+      policy groups via the Employee Management API and the Gett business
+      portal to enforce budget controls on ground transportation spend.
+  webhooks:
+    description: >
+      Subscribe to business_report webhook events to receive real-time
+      notifications of completed orders for immediate expense tracking
+      and cost visibility.
+  reporting:
+    description: >
+      The Business Reports API provides order retrieval by individual order
+      ID and by date range, supporting financial reconciliation and
+      cost-centre reporting workflows.
+funding:
+  raised: $1.02B
+  lastKnownValuation: $175M
+  investors:
+    - Volkswagen Group
+    - Kreos Capital
+    - Access Industries
