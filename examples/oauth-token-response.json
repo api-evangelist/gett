@@ -1,0 +1,10 @@
+{
+  "summary": "Successful OAuth 2.0 token response",
+  "description": "Example response containing a JWT bearer token valid for 899 seconds",
+  "value": {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NTBlODQwMC1lMjliLTQxZDQtYTcxNi00NDY2NTU0NDAwMDAiLCJzY29wZSI6Im9yZGVyIiwiaWF0IjoxNzQ5ODE0NjAwLCJleHAiOjE3NDk4MTU0OTl9.example-signature",
+    "expires_in": 899,
+    "scope": "order",
+    "token_type": "bearer"
+  }
+}

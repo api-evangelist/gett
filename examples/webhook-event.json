@@ -1,0 +1,23 @@
+{
+  "summary": "Webhook status_changed event payload",
+  "description": "Example payload sent by Gett when an order status changes",
+  "value": {
+    "event_type": "status_changed",
+    "order_id": "ord-7f3a9b2c-1234-5678-abcd-ef0123456789",
+    "business_id": "550e8400-e29b-41d4-a716-446655440000",
+    "status": "Confirmed",
+    "previous_status": "Routing",
+    "driver": {
+      "name": "Michael Johnson",
+      "phone_number": "+12125559876",
+      "vehicle": {
+        "make": "Toyota",
+        "model": "Camry",
+        "color": "Black",
+        "license_plate": "NYC-1234"
+      }
+    },
+    "eta_minutes": 5,
+    "timestamp": "2026-06-13T10:32:15Z"
+  }
+}

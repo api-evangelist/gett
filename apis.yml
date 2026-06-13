@@ -50,6 +50,8 @@ apis:
         url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/rate-limits/rate-limits.yml
       - type: FinOps
         url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/finops/finops.yml
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/openapi/openapi.yml
     contact:
       - FN: Gett Developer Support
         url: https://developer.gett.com/docs/contact-us

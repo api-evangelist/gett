@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.gett.com/schemas/webhook-subscription",
+  "title": "WebhookSubscription",
+  "description": "A Gett Business API webhook subscription",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Subscription unique identifier"
+    },
+    "hook_address": {
+      "type": "string",
+      "format": "uri",
+      "description": "Publicly accessible HTTPS endpoint URL for receiving events"
+    },
+    "event_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["status_changed", "business_report"]
+      },
+      "description": "Subscribed event types"
+    },
+    "business_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "description": "Associated business identifiers"
+    },
+    "secret_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID verification token used to validate that requests were sent from Gett"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Subscription creation timestamp (RFC 3339)"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp (RFC 3339)"
+    }
+  },
+  "required": ["hook_address", "event_types"]
+}

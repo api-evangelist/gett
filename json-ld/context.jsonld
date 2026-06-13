@@ -1,0 +1,65 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "gett": "https://developer.gett.com/ontology#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "Order": "gett:Order",
+    "Employee": "gett:Employee",
+    "Subscription": "gett:Subscription",
+    "Product": "gett:Product",
+    "order_id": "gett:orderId",
+    "business_id": "gett:businessId",
+    "product_id": "gett:productId",
+    "status": "gett:status",
+    "passenger": {
+      "@id": "gett:passenger",
+      "@type": "Person"
+    },
+    "pickup": {
+      "@id": "gett:pickup",
+      "@type": "Place"
+    },
+    "dropoff": {
+      "@id": "gett:dropoff",
+      "@type": "Place"
+    },
+    "stops": {
+      "@id": "gett:stops",
+      "@container": "@list"
+    },
+    "scheduled_at": {
+      "@id": "gett:scheduledAt",
+      "@type": "xsd:dateTime"
+    },
+    "reference_code": "gett:referenceCode",
+    "hook_address": {
+      "@id": "gett:hookAddress",
+      "@type": "@id"
+    },
+    "event_types": {
+      "@id": "gett:eventTypes",
+      "@container": "@set"
+    },
+    "secret_id": "gett:secretId",
+    "policy_group_id": "gett:policyGroupId",
+    "phone_number": "telephone",
+    "created_at": {
+      "@id": "dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updated_at": {
+      "@id": "dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "coordinates": {
+      "@id": "geo"
+    },
+    "lat": "latitude",
+    "lng": "longitude",
+    "address": "address",
+    "name": "name",
+    "email": "email",
+    "currency": "priceCurrency",
+    "amount": "price"
+  }
+}

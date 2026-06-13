@@ -1,0 +1,10 @@
+{
+  "summary": "OAuth 2.0 client credentials token request",
+  "description": "Example form-encoded body for obtaining a bearer token",
+  "value": {
+    "grant_type": "client_credentials",
+    "client_id": "your-client-id-from-gett-portal",
+    "client_secret": "your-client-secret-from-gett-portal",
+    "scope": "order"
+  }
+}

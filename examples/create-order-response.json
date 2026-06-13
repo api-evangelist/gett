@@ -1,0 +1,45 @@
+{
+  "summary": "Successful ride order creation response",
+  "description": "Example response when an on-demand ride is successfully booked",
+  "value": {
+    "id": "ord-7f3a9b2c-1234-5678-abcd-ef0123456789",
+    "business_id": "550e8400-e29b-41d4-a716-446655440000",
+    "product_id": "taxi-standard-nyc-001",
+    "status": "Pending",
+    "passenger": {
+      "name": "Jane Smith",
+      "phone_number": "+12125551234",
+      "email": "jane.smith@company.com"
+    },
+    "pickup": {
+      "address": {
+        "line1": "350 Fifth Avenue",
+        "city": "New York",
+        "state": "NY",
+        "postal_code": "10118",
+        "country_code": "US"
+      },
+      "coordinates": {
+        "lat": 40.7484,
+        "lng": -73.9856
+      }
+    },
+    "dropoff": {
+      "address": {
+        "line1": "1 Times Square",
+        "city": "New York",
+        "state": "NY",
+        "postal_code": "10036",
+        "country_code": "US"
+      },
+      "coordinates": {
+        "lat": 40.7580,
+        "lng": -73.9855
+      }
+    },
+    "reference_code": "PROJECT-ALPHA-2026",
+    "notes": "Please wait at the main entrance",
+    "created_at": "2026-06-13T10:30:00Z",
+    "updated_at": "2026-06-13T10:30:00Z"
+  }
+}

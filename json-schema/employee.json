@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.gett.com/schemas/employee",
+  "title": "Employee",
+  "description": "A Gett Business API employee record",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Employee unique identifier"
+    },
+    "business_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Company UUID"
+    },
+    "name": {
+      "type": "string",
+      "description": "Employee full name"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Employee email address"
+    },
+    "phone_number": {
+      "type": "string",
+      "description": "Employee phone number"
+    },
+    "policy_group_id": {
+      "type": "string",
+      "description": "Assigned policy group identifier"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive"],
+      "description": "Employee account status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Record creation timestamp"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    }
+  },
+  "required": ["business_id", "name", "email"]
+}
