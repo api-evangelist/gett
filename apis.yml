@@ -6,7 +6,7 @@ description: >
   expense management systems. The API supports multi-passenger, multi-stop,
   and multi-dropoff scenarios and connects businesses with a global supplier
   network of taxis, black cars, and private-hire vehicles.
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Ground Transportation
   - Corporate Travel
@@ -24,7 +24,7 @@ apis:
       book on-demand and pre-scheduled rides (up to 30 days in advance),
       manage employees, retrieve reports, access receipts, and receive
       real-time webhook notifications about order status changes.
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://developer.gett.com/docs/introduction
     baseURL: https://business-api.gett.com
     tags:
