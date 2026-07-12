@@ -56,6 +56,12 @@ apis:
       - FN: Gett Developer Support
         url: https://developer.gett.com/docs/contact-us
 common:
+  - type: TrustCenter
+    url: security/gett-trust-center.yml
+  - type: DomainSecurity
+    url: security/gett-domain-security.yml
+  - type: Authentication
+    url: authentication/gett-authentication.yml
   - type: Documentation
     url: https://developer.gett.com/docs/introduction
   - type: Authentication
