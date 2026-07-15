@@ -56,6 +56,8 @@ apis:
       - FN: Gett Developer Support
         url: https://developer.gett.com/docs/contact-us
 common:
+  - type: AgenticAccess
+    url: agentic-access/gett-agentic-access.yml
   - type: TrustCenter
     url: security/gett-trust-center.yml
   - type: DomainSecurity
