@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication Webhooks API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+  description: Webhook subscription management
+paths:
+  /v1/subscribers:
+    post:
+      summary: Create Webhook Subscription
+      description: Subscribe to webhook events for real-time order status updates.
+      operationId: createSubscription
+      tags:
+      - Webhooks
+      parameters:
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
+      responses:
+        '201':
+          description: Subscription created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: List Webhook Subscriptions
+      description: Retrieve all webhook subscriptions for a business.
+      operationId: listSubscriptions
+      tags:
+      - Webhooks
+      parameters:
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '200':
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscribers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subscription'
+  /v1/subscribers/{subscriberId}:
+    delete:
+      summary: Delete Webhook Subscription
+      description: Remove an existing webhook subscription.
+      operationId: deleteSubscription
+      tags:
+      - Webhooks
+      parameters:
+      - name: subscriberId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Subscription ID to delete
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '204':
+          description: Subscription deleted
+        '404':
+          description: Subscription not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    CreateSubscriptionRequest:
+      type: object
+      required:
+      - event_types
+      - hook_address
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - status_changed
+            - business_report
+          description: Event types to subscribe to
+        hook_address:
+          type: string
+          format: uri
+          description: Publicly accessible HTTPS endpoint to receive webhook events
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Subscription identifier
+        hook_address:
+          type: string
+          format: uri
+          description: Registered webhook endpoint URL
+        event_types:
+          type: array
+          items:
+            type: string
+          description: Subscribed event types
+        business_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Associated business identifiers
+        secret_id:
+          type: string
+          format: uuid
+          description: UUID verification token for webhook signature validation
+        created_at:
+          type: string
+          format: date-time
+          description: Subscription creation timestamp (RFC 3339)
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp (RFC 3339)
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '

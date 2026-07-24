@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication Employee Management API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Employee Management
+  description: Employee account management
+paths:
+  /v1/employees:
+    get:
+      summary: Get Employees
+      description: Retrieve a list of employees for the business.
+      operationId: getEmployees
+      tags:
+      - Employee Management
+      parameters:
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+        description: Page number for pagination
+      - name: per_page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+        description: Number of employees per page
+      responses:
+        '200':
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Employee'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+    post:
+      summary: Add Employee
+      description: Add a new employee to the business account.
+      operationId: addEmployee
+      tags:
+      - Employee Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+      responses:
+        '201':
+          description: Employee created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/employees/{employeeId}:
+    get:
+      summary: Get Employee
+      description: Retrieve details for a specific employee.
+      operationId: getEmployee
+      tags:
+      - Employee Management
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Employee unique identifier
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '200':
+          description: Employee details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update Employee
+      description: Update information for an existing employee.
+      operationId: updateEmployee
+      tags:
+      - Employee Management
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Employee unique identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployeeRequest'
+      responses:
+        '200':
+          description: Employee updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete Employee
+      description: Remove an employee from the business account.
+      operationId: deleteEmployee
+      tags:
+      - Employee Management
+      parameters:
+      - name: employeeId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Employee unique identifier
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '204':
+          description: Employee deleted
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/policy-groups:
+    get:
+      summary: Get Policy Groups
+      description: Retrieve available policy groups for employee assignment.
+      operationId: getPolicyGroups
+      tags:
+      - Employee Management
+      parameters:
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '200':
+          description: List of policy groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  policy_groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PolicyGroup'
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Employee unique identifier
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        name:
+          type: string
+          description: Employee full name
+        email:
+          type: string
+          format: email
+          description: Employee email address
+        phone_number:
+          type: string
+          description: Employee phone number
+        policy_group_id:
+          type: string
+          description: Assigned policy group identifier
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          description: Employee account status
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    PolicyGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Policy group identifier
+        name:
+          type: string
+          description: Policy group name
+        description:
+          type: string
+          description: Policy group description
+        rules:
+          type: object
+          description: Policy rules and restrictions
+    CreateEmployeeRequest:
+      type: object
+      required:
+      - business_id
+      - name
+      - email
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        name:
+          type: string
+          description: Employee full name
+        email:
+          type: string
+          format: email
+          description: Employee email address
+        phone_number:
+          type: string
+          description: Employee phone number
+        policy_group_id:
+          type: string
+          description: Policy group to assign the employee to
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        policy_group_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '

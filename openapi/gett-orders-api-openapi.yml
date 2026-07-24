@@ -1,0 +1,472 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication Orders API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Orders
+  description: Ride booking and management operations
+paths:
+  /v1/orders:
+    post:
+      summary: Create a Ride Order
+      description: 'Book an on-demand or pre-scheduled ride. Supports single passenger, multi-passenger, multi-stop, and multi-dropoff scenarios.
+
+        '
+      operationId: createOrder
+      tags:
+      - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+            examples:
+              onDemandRide:
+                summary: On-demand single passenger ride
+                value:
+                  business_id: 550e8400-e29b-41d4-a716-446655440000
+                  product_id: product-uuid-123
+                  passenger:
+                    name: John Doe
+                    phone_number: '+1234567890'
+                    email: john.doe@company.com
+                  pickup:
+                    address:
+                      line1: 123 Main St
+                      city: New York
+                      country_code: US
+                    coordinates:
+                      lat: 40.7128
+                      lng: -74.006
+                  dropoff:
+                    address:
+                      line1: 456 Broadway
+                      city: New York
+                      country_code: US
+                    coordinates:
+                      lat: 40.7589
+                      lng: -73.9851
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit exceeded (16 req/sec)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders/{orderId}:
+    get:
+      summary: Get Order Status
+      description: Retrieve the current status and details of an existing order.
+      operationId: getOrder
+      tags:
+      - Orders
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the order
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID (business_id)
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update an Order
+      description: Update details of an existing pending or reserved order.
+      operationId: updateOrder
+      tags:
+      - Orders
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderRequest'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders/{orderId}/cancel:
+    post:
+      summary: Cancel an Order
+      description: Cancel an existing order that has not yet been completed.
+      operationId: cancelOrder
+      tags:
+      - Orders
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the order
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business_id:
+                  type: string
+                  format: uuid
+                  description: Company UUID
+                reason:
+                  type: string
+                  description: Reason for cancellation
+      responses:
+        '200':
+          description: Order cancelled successfully
+        '400':
+          description: Bad request - order cannot be cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/price-estimate:
+    post:
+      summary: Get Price Estimate
+      description: Get an estimated price for a potential ride before booking.
+      operationId: getPriceEstimate
+      tags:
+      - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - business_id
+              - product_id
+              - pickup
+              - dropoff
+              properties:
+                business_id:
+                  type: string
+                  format: uuid
+                product_id:
+                  type: string
+                pickup:
+                  $ref: '#/components/schemas/Location'
+                dropoff:
+                  $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Price estimate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceEstimate'
+components:
+  schemas:
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Coordinates:
+      type: object
+      required:
+      - lat
+      - lng
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude
+        lng:
+          type: number
+          format: float
+          description: Longitude
+    UpdateOrderRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+        notes:
+          type: string
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          description: Street address line 1
+        line2:
+          type: string
+          description: Street address line 2
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: State or region
+        postal_code:
+          type: string
+          description: Postal/ZIP code
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        provider_name:
+          type: string
+          description: Address provider name (e.g., Google)
+        provider_id:
+          type: string
+          description: Provider-specific location ID for best accuracy
+    CreateOrderRequest:
+      type: object
+      required:
+      - business_id
+      - product_id
+      - passenger
+      - pickup
+      - dropoff
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier (do not hardcode)
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        stops:
+          type: array
+          description: Intermediate stops for multi-stop rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_dropoffs:
+          type: array
+          description: Additional dropoff locations for multi-dropoff rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_passengers:
+          type: array
+          description: Additional passengers for multi-passenger rides
+          items:
+            $ref: '#/components/schemas/Passenger'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: 'Scheduled pickup time for pre-booked rides (up to 30 days in advance). If omitted, the ride is on-demand.
+
+            '
+        reference_code:
+          type: string
+          description: Business reference code for expense tracking
+        notes:
+          type: string
+          description: Special instructions for the driver
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique order identifier
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier
+        status:
+          type: string
+          enum:
+          - Pending
+          - Reserved
+          - Routing
+          - Confirmed
+          - Waiting
+          - Driving
+          - Completed
+          - Cancelled
+          - Rejected
+          - CareReq
+          - ActiveOrder
+          description: Current order status
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: Scheduled pickup time (for pre-booked rides)
+        driver:
+          type: object
+          properties:
+            name:
+              type: string
+            phone_number:
+              type: string
+            vehicle:
+              type: object
+              properties:
+                make:
+                  type: string
+                model:
+                  type: string
+                color:
+                  type: string
+                license_plate:
+                  type: string
+        reference_code:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Passenger:
+      type: object
+      required:
+      - name
+      - phone_number
+      properties:
+        name:
+          type: string
+          description: Passenger full name
+        phone_number:
+          type: string
+          description: Passenger phone number (E.164 format)
+        email:
+          type: string
+          format: email
+          description: Passenger email address
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    PriceEstimate:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Estimated price amount
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        minimum:
+          type: number
+          format: float
+          description: Minimum estimated price
+        maximum:
+          type: number
+          format: float
+          description: Maximum estimated price
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '

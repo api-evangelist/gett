@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication Finance API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Finance
+  description: Receipt retrieval and financial operations
+paths:
+  /v1/orders/{orderId}/receipt:
+    get:
+      summary: Get Order Receipt
+      description: Retrieve the receipt for a completed order.
+      operationId: getOrderReceipt
+      tags:
+      - Finance
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the order
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      responses:
+        '200':
+          description: Order receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+        '404':
+          description: Receipt not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Receipt:
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: Order identifier
+        business_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: float
+          description: Total amount charged
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        breakdown:
+          type: array
+          description: Itemized cost breakdown
+          items:
+            type: object
+            properties:
+              description:
+                type: string
+              amount:
+                type: number
+                format: float
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        completed_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Coordinates:
+      type: object
+      required:
+      - lat
+      - lng
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude
+        lng:
+          type: number
+          format: float
+          description: Longitude
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          description: Street address line 1
+        line2:
+          type: string
+          description: Street address line 2
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: State or region
+        postal_code:
+          type: string
+          description: Postal/ZIP code
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        provider_name:
+          type: string
+          description: Address provider name (e.g., Google)
+        provider_id:
+          type: string
+          description: Provider-specific location ID for best accuracy
+    Passenger:
+      type: object
+      required:
+      - name
+      - phone_number
+      properties:
+        name:
+          type: string
+          description: Passenger full name
+        phone_number:
+          type: string
+          description: Passenger phone number (E.164 format)
+        email:
+          type: string
+          format: email
+          description: Passenger email address
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '

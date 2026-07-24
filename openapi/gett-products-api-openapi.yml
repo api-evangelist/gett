@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication Products API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Products
+  description: Available ride products and services
+paths:
+  /v1/products:
+    get:
+      summary: Get Available Products
+      description: 'Retrieve available ride products/services for a given location. Avoid hardcoding product IDs as they may change.
+
+        '
+      operationId: getProducts
+      tags:
+      - Products
+      parameters:
+      - name: businessId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Company UUID
+      - name: lat
+        in: query
+        required: true
+        schema:
+          type: number
+          format: float
+        description: Pickup latitude
+      - name: lng
+        in: query
+        required: true
+        schema:
+          type: number
+          format: float
+        description: Pickup longitude
+      responses:
+        '200':
+          description: List of available products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Product identifier
+        name:
+          type: string
+          description: Product display name
+        description:
+          type: string
+          description: Product description
+        capacity:
+          type: integer
+          description: Maximum passenger capacity
+        vehicle_type:
+          type: string
+          description: Type of vehicle (taxi, black car, private hire)
+        eta_minutes:
+          type: integer
+          description: Estimated time of arrival in minutes
+        price_estimate:
+          $ref: '#/components/schemas/PriceEstimate'
+    PriceEstimate:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Estimated price amount
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        minimum:
+          type: number
+          format: float
+          description: Minimum estimated price
+        maximum:
+          type: number
+          format: float
+          description: Maximum estimated price
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '

@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: Gett Business Authentication API
+  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
+
+    '
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+- url: https://business-api.gett.com
+  description: Gett Business API Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Authentication
+  description: OAuth 2.0 token management
+paths:
+  /oauth/token:
+    post:
+      summary: Get Access Token
+      description: 'Obtain an OAuth 2.0 bearer token using Client Credentials flow. The token is valid for 899 seconds (approximately 15 minutes).
+
+        '
+      operationId: getAccessToken
+      security: []
+      tags:
+      - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+              - scope
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  description: OAuth 2.0 grant type
+                client_id:
+                  type: string
+                  description: Client ID issued from Settings - Integrations setup
+                client_secret:
+                  type: string
+                  description: Client secret issued from Settings - Integrations setup
+                scope:
+                  type: string
+                  description: 'Space-delimited permission scopes. Available scopes: order, company.reference, finance
+
+                    '
+                  example: order
+      responses:
+        '200':
+          description: Access token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: JWT bearer token for authenticated API requests
+        expires_in:
+          type: integer
+          description: Token validity period in seconds (typically 899)
+        scope:
+          type: string
+          description: Granted permission scope
+        token_type:
+          type: string
+          enum:
+          - bearer
+          description: Token type
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+
+        '
