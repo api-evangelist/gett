@@ -1,0 +1,24 @@
+{
+  "provider": "gett",
+  "sources": [
+    "gett-authentication-api-openapi.yml",
+    "gett-employee-management-api-openapi.yml",
+    "gett-finance-api-openapi.yml",
+    "gett-orders-api-openapi.yml",
+    "gett-products-api-openapi.yml",
+    "gett-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "gett-authentication-api-openapi.yml",
+    "gett-employee-management-api-openapi.yml",
+    "gett-finance-api-openapi.yml",
+    "gett-orders-api-openapi.yml",
+    "gett-products-api-openapi.yml",
+    "gett-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

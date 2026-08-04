@@ -1,0 +1,1122 @@
+openapi: 3.0.3
+info:
+  title: Gett Business API
+  description: >
+    REST API for corporate ground transportation that enables businesses to
+    book on-demand and pre-scheduled rides (up to 30 days in advance),
+    manage employees, retrieve reports, access receipts, and receive
+    real-time webhook notifications about order status changes.
+  version: '1.0'
+  contact:
+    name: Gett Developer Support
+    url: https://developer.gett.com/docs/contact-us
+  termsOfService: https://developer.gett.com/docs/tnc
+servers:
+  - url: https://business-api.gett.com
+    description: Gett Business API Production Server
+security:
+  - bearerAuth: []
+paths:
+  /oauth/token:
+    post:
+      summary: Get Access Token
+      description: >
+        Obtain an OAuth 2.0 bearer token using Client Credentials flow.
+        The token is valid for 899 seconds (approximately 15 minutes).
+      operationId: getAccessToken
+      security: []
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - grant_type
+                - client_id
+                - client_secret
+                - scope
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                    - client_credentials
+                  description: OAuth 2.0 grant type
+                client_id:
+                  type: string
+                  description: Client ID issued from Settings - Integrations setup
+                client_secret:
+                  type: string
+                  description: Client secret issued from Settings - Integrations setup
+                scope:
+                  type: string
+                  description: >
+                    Space-delimited permission scopes. Available scopes:
+                    order, company.reference, finance
+                  example: order
+      responses:
+        '200':
+          description: Access token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders:
+    post:
+      summary: Create a Ride Order
+      description: >
+        Book an on-demand or pre-scheduled ride. Supports single passenger,
+        multi-passenger, multi-stop, and multi-dropoff scenarios.
+      operationId: createOrder
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+            examples:
+              onDemandRide:
+                summary: On-demand single passenger ride
+                value:
+                  business_id: "550e8400-e29b-41d4-a716-446655440000"
+                  product_id: "product-uuid-123"
+                  passenger:
+                    name: "John Doe"
+                    phone_number: "+1234567890"
+                    email: "john.doe@company.com"
+                  pickup:
+                    address:
+                      line1: "123 Main St"
+                      city: "New York"
+                      country_code: "US"
+                    coordinates:
+                      lat: 40.7128
+                      lng: -74.0060
+                  dropoff:
+                    address:
+                      line1: "456 Broadway"
+                      city: "New York"
+                      country_code: "US"
+                    coordinates:
+                      lat: 40.7589
+                      lng: -73.9851
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too Many Requests - rate limit exceeded (16 req/sec)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders/{orderId}:
+    get:
+      summary: Get Order Status
+      description: Retrieve the current status and details of an existing order.
+      operationId: getOrder
+      tags:
+        - Orders
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the order
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID (business_id)
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update an Order
+      description: Update details of an existing pending or reserved order.
+      operationId: updateOrder
+      tags:
+        - Orders
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderRequest'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders/{orderId}/cancel:
+    post:
+      summary: Cancel an Order
+      description: Cancel an existing order that has not yet been completed.
+      operationId: cancelOrder
+      tags:
+        - Orders
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the order
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business_id:
+                  type: string
+                  format: uuid
+                  description: Company UUID
+                reason:
+                  type: string
+                  description: Reason for cancellation
+      responses:
+        '200':
+          description: Order cancelled successfully
+        '400':
+          description: Bad request - order cannot be cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/orders/{orderId}/receipt:
+    get:
+      summary: Get Order Receipt
+      description: Retrieve the receipt for a completed order.
+      operationId: getOrderReceipt
+      tags:
+        - Finance
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the order
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '200':
+          description: Order receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+        '404':
+          description: Receipt not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/products:
+    get:
+      summary: Get Available Products
+      description: >
+        Retrieve available ride products/services for a given location.
+        Avoid hardcoding product IDs as they may change.
+      operationId: getProducts
+      tags:
+        - Products
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+            format: float
+          description: Pickup latitude
+        - name: lng
+          in: query
+          required: true
+          schema:
+            type: number
+            format: float
+          description: Pickup longitude
+      responses:
+        '200':
+          description: List of available products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+  /v1/price-estimate:
+    post:
+      summary: Get Price Estimate
+      description: Get an estimated price for a potential ride before booking.
+      operationId: getPriceEstimate
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - business_id
+                - product_id
+                - pickup
+                - dropoff
+              properties:
+                business_id:
+                  type: string
+                  format: uuid
+                product_id:
+                  type: string
+                pickup:
+                  $ref: '#/components/schemas/Location'
+                dropoff:
+                  $ref: '#/components/schemas/Location'
+      responses:
+        '200':
+          description: Price estimate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceEstimate'
+  /v1/subscribers:
+    post:
+      summary: Create Webhook Subscription
+      description: Subscribe to webhook events for real-time order status updates.
+      operationId: createSubscription
+      tags:
+        - Webhooks
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
+      responses:
+        '201':
+          description: Subscription created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: List Webhook Subscriptions
+      description: Retrieve all webhook subscriptions for a business.
+      operationId: listSubscriptions
+      tags:
+        - Webhooks
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '200':
+          description: List of subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscribers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subscription'
+  /v1/subscribers/{subscriberId}:
+    delete:
+      summary: Delete Webhook Subscription
+      description: Remove an existing webhook subscription.
+      operationId: deleteSubscription
+      tags:
+        - Webhooks
+      parameters:
+        - name: subscriberId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Subscription ID to delete
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '204':
+          description: Subscription deleted
+        '404':
+          description: Subscription not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/employees:
+    get:
+      summary: Get Employees
+      description: Retrieve a list of employees for the business.
+      operationId: getEmployees
+      tags:
+        - Employee Management
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+          description: Page number for pagination
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Number of employees per page
+      responses:
+        '200':
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  employees:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Employee'
+                  total:
+                    type: integer
+                  page:
+                    type: integer
+    post:
+      summary: Add Employee
+      description: Add a new employee to the business account.
+      operationId: addEmployee
+      tags:
+        - Employee Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployeeRequest'
+      responses:
+        '201':
+          description: Employee created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/employees/{employeeId}:
+    get:
+      summary: Get Employee
+      description: Retrieve details for a specific employee.
+      operationId: getEmployee
+      tags:
+        - Employee Management
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Employee unique identifier
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '200':
+          description: Employee details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update Employee
+      description: Update information for an existing employee.
+      operationId: updateEmployee
+      tags:
+        - Employee Management
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Employee unique identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployeeRequest'
+      responses:
+        '200':
+          description: Employee updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete Employee
+      description: Remove an employee from the business account.
+      operationId: deleteEmployee
+      tags:
+        - Employee Management
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Employee unique identifier
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '204':
+          description: Employee deleted
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /v1/policy-groups:
+    get:
+      summary: Get Policy Groups
+      description: Retrieve available policy groups for employee assignment.
+      operationId: getPolicyGroups
+      tags:
+        - Employee Management
+      parameters:
+        - name: businessId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Company UUID
+      responses:
+        '200':
+          description: List of policy groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  policy_groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PolicyGroup'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        Bearer token obtained from /oauth/token endpoint. Valid for 899 seconds.
+  schemas:
+    AccessToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: JWT bearer token for authenticated API requests
+        expires_in:
+          type: integer
+          description: Token validity period in seconds (typically 899)
+        scope:
+          type: string
+          description: Granted permission scope
+        token_type:
+          type: string
+          enum:
+            - bearer
+          description: Token type
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    Coordinates:
+      type: object
+      required:
+        - lat
+        - lng
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude
+        lng:
+          type: number
+          format: float
+          description: Longitude
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          description: Street address line 1
+        line2:
+          type: string
+          description: Street address line 2
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: State or region
+        postal_code:
+          type: string
+          description: Postal/ZIP code
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        provider_name:
+          type: string
+          description: Address provider name (e.g., Google)
+        provider_id:
+          type: string
+          description: Provider-specific location ID for best accuracy
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Passenger:
+      type: object
+      required:
+        - name
+        - phone_number
+      properties:
+        name:
+          type: string
+          description: Passenger full name
+        phone_number:
+          type: string
+          description: Passenger phone number (E.164 format)
+        email:
+          type: string
+          format: email
+          description: Passenger email address
+    CreateOrderRequest:
+      type: object
+      required:
+        - business_id
+        - product_id
+        - passenger
+        - pickup
+        - dropoff
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier (do not hardcode)
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        stops:
+          type: array
+          description: Intermediate stops for multi-stop rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_dropoffs:
+          type: array
+          description: Additional dropoff locations for multi-dropoff rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_passengers:
+          type: array
+          description: Additional passengers for multi-passenger rides
+          items:
+            $ref: '#/components/schemas/Passenger'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: >
+            Scheduled pickup time for pre-booked rides (up to 30 days in advance).
+            If omitted, the ride is on-demand.
+        reference_code:
+          type: string
+          description: Business reference code for expense tracking
+        notes:
+          type: string
+          description: Special instructions for the driver
+    UpdateOrderRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+        notes:
+          type: string
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique order identifier
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier
+        status:
+          type: string
+          enum:
+            - Pending
+            - Reserved
+            - Routing
+            - Confirmed
+            - Waiting
+            - Driving
+            - Completed
+            - Cancelled
+            - Rejected
+            - CareReq
+            - ActiveOrder
+          description: Current order status
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: Scheduled pickup time (for pre-booked rides)
+        driver:
+          type: object
+          properties:
+            name:
+              type: string
+            phone_number:
+              type: string
+            vehicle:
+              type: object
+              properties:
+                make:
+                  type: string
+                model:
+                  type: string
+                color:
+                  type: string
+                license_plate:
+                  type: string
+        reference_code:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Receipt:
+      type: object
+      properties:
+        order_id:
+          type: string
+          description: Order identifier
+        business_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: float
+          description: Total amount charged
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        breakdown:
+          type: array
+          description: Itemized cost breakdown
+          items:
+            type: object
+            properties:
+              description:
+                type: string
+              amount:
+                type: number
+                format: float
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        completed_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Product identifier
+        name:
+          type: string
+          description: Product display name
+        description:
+          type: string
+          description: Product description
+        capacity:
+          type: integer
+          description: Maximum passenger capacity
+        vehicle_type:
+          type: string
+          description: Type of vehicle (taxi, black car, private hire)
+        eta_minutes:
+          type: integer
+          description: Estimated time of arrival in minutes
+        price_estimate:
+          $ref: '#/components/schemas/PriceEstimate'
+    PriceEstimate:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Estimated price amount
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        minimum:
+          type: number
+          format: float
+          description: Minimum estimated price
+        maximum:
+          type: number
+          format: float
+          description: Maximum estimated price
+    CreateSubscriptionRequest:
+      type: object
+      required:
+        - event_types
+        - hook_address
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+            enum:
+              - status_changed
+              - business_report
+          description: Event types to subscribe to
+        hook_address:
+          type: string
+          format: uri
+          description: Publicly accessible HTTPS endpoint to receive webhook events
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Subscription identifier
+        hook_address:
+          type: string
+          format: uri
+          description: Registered webhook endpoint URL
+        event_types:
+          type: array
+          items:
+            type: string
+          description: Subscribed event types
+        business_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Associated business identifiers
+        secret_id:
+          type: string
+          format: uuid
+          description: UUID verification token for webhook signature validation
+        created_at:
+          type: string
+          format: date-time
+          description: Subscription creation timestamp (RFC 3339)
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp (RFC 3339)
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Employee unique identifier
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        name:
+          type: string
+          description: Employee full name
+        email:
+          type: string
+          format: email
+          description: Employee email address
+        phone_number:
+          type: string
+          description: Employee phone number
+        policy_group_id:
+          type: string
+          description: Assigned policy group identifier
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+          description: Employee account status
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CreateEmployeeRequest:
+      type: object
+      required:
+        - business_id
+        - name
+        - email
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        name:
+          type: string
+          description: Employee full name
+        email:
+          type: string
+          format: email
+          description: Employee email address
+        phone_number:
+          type: string
+          description: Employee phone number
+        policy_group_id:
+          type: string
+          description: Policy group to assign the employee to
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        policy_group_id:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+    PolicyGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Policy group identifier
+        name:
+          type: string
+          description: Policy group name
+        description:
+          type: string
+          description: Policy group description
+        rules:
+          type: object
+          description: Policy rules and restrictions
+tags:
+  - name: Authentication
+    description: OAuth 2.0 token management
+  - name: Orders
+    description: Ride booking and management operations
+  - name: Finance
+    description: Receipt retrieval and financial operations
+  - name: Products
+    description: Available ride products and services
+  - name: Webhooks
+    description: Webhook subscription management
+  - name: Employee Management
+    description: Employee account management
