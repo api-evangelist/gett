@@ -1,0 +1,212 @@
+{
+  "item": [
+    {
+      "id": "c005d447-28ba-4569-8134-fc9b66ba4724",
+      "name": "Finance",
+      "description": {
+        "content": "Receipt retrieval and financial operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "89f5e411-7dc1-4b00-aac2-c3d02e3bf270",
+          "name": "Get Order Receipt",
+          "request": {
+            "name": "Get Order Receipt",
+            "description": {
+              "content": "Retrieve the receipt for a completed order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "orders",
+                ":orderId",
+                "receipt"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "businessId",
+                  "value": "<uuid>",
+                  "description": "(Required) Company UUID"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69e9af0d-b667-41c1-bbfb-1312d482dc02",
+              "name": "Order receipt",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId",
+                    "receipt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "businessId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"order_id\": \"string\",\n  \"business_id\": \"24684ad7-0744-65e6-d44b-465124f7d9cd\",\n  \"amount\": 9773.239628874877,\n  \"currency\": \"string\",\n  \"breakdown\": [\n    {\n      \"description\": \"string\",\n      \"amount\": 5891.757081496635\n    },\n    {\n      \"description\": \"string\",\n      \"amount\": 8458.764012290301\n    }\n  ],\n  \"passenger\": {\n    \"name\": \"string\",\n    \"phone_number\": \"string\",\n    \"email\": \"g10GO7EqK@NdlUAsUGNFqvvgz.frz\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"string\",\n      \"line2\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postal_code\": \"string\",\n      \"country_code\": \"string\",\n      \"provider_name\": \"string\",\n      \"provider_id\": \"string\"\n    },\n    \"coordinates\": {\n      \"lat\": 6582.356490152387,\n      \"lng\": 6341.612374377042\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"string\",\n      \"line2\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"postal_code\": \"string\",\n      \"country_code\": \"string\",\n      \"provider_name\": \"string\",\n      \"provider_id\": \"string\"\n    },\n    \"coordinates\": {\n      \"lat\": 7715.232996785611,\n      \"lng\": 7320.08241066505\n    }\n  },\n  \"completed_at\": \"1997-02-16T02:19:48.485Z\",\n  \"reference_code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0eb08a99-2735-46b6-b36a-29d3f73caf14",
+              "name": "Receipt not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId",
+                    "receipt"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "businessId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 8849\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://business-api.gett.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "97d64316-8f04-4b1f-bfb0-c4b678dbb68d",
+    "name": "Gett Business Authentication Finance API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.\n\n\nContact Support:\n Name: Gett Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

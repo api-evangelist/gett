@@ -1,0 +1,162 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gett Business Authentication Employee Management API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Employee Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Employees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/employees",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Number of employees per page"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of employees for the business."
+        },
+        {
+          "info": {
+            "name": "Add Employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business-api.gett.com/v1/employees",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a new employee to the business account."
+        },
+        {
+          "info": {
+            "name": "Get Employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/employees/:employeeId",
+            "params": [
+              {
+                "name": "employeeId",
+                "value": "",
+                "type": "path",
+                "description": "Employee unique identifier"
+              },
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Retrieve details for a specific employee."
+        },
+        {
+          "info": {
+            "name": "Update Employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business-api.gett.com/v1/employees/:employeeId",
+            "params": [
+              {
+                "name": "employeeId",
+                "value": "",
+                "type": "path",
+                "description": "Employee unique identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update information for an existing employee."
+        },
+        {
+          "info": {
+            "name": "Delete Employee",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://business-api.gett.com/v1/employees/:employeeId",
+            "params": [
+              {
+                "name": "employeeId",
+                "value": "",
+                "type": "path",
+                "description": "Employee unique identifier"
+              },
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Remove an employee from the business account."
+        },
+        {
+          "info": {
+            "name": "Get Policy Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/policy-groups",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Retrieve available policy groups for employee assignment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

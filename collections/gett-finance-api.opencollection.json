@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gett Business Authentication Finance API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Finance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Order Receipt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/orders/:orderId/receipt",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              },
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Retrieve the receipt for a completed order."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

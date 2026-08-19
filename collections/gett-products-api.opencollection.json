@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gett Business Authentication Products API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Available Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/products",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              },
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Pickup latitude"
+              },
+              {
+                "name": "lng",
+                "value": "",
+                "type": "query",
+                "description": "Pickup longitude"
+              }
+            ]
+          },
+          "docs": "Retrieve available ride products/services for a given location. Avoid hardcoding product IDs as they may change.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

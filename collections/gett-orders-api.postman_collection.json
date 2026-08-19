@@ -1,0 +1,1049 @@
+{
+  "item": [
+    {
+      "id": "1679843e-277d-4b76-bdea-a2e09c77baee",
+      "name": "Orders",
+      "description": {
+        "content": "Ride booking and management operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f4c41a49-d6d1-4237-afb2-436d741d07ca",
+          "name": "Create a Ride Order",
+          "request": {
+            "name": "Create a Ride Order",
+            "description": {
+              "content": "Book an on-demand or pre-scheduled ride. Supports single passenger, multi-passenger, multi-stop, and multi-dropoff scenarios.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"product_id\": \"<string>\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"stops\": [\n    {\n      \"address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"provider_name\": \"<string>\",\n        \"provider_id\": \"<string>\"\n      },\n      \"coordinates\": {\n        \"lat\": \"<float>\",\n        \"lng\": \"<float>\"\n      }\n    },\n    {\n      \"address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"provider_name\": \"<string>\",\n        \"provider_id\": \"<string>\"\n      },\n      \"coordinates\": {\n        \"lat\": \"<float>\",\n        \"lng\": \"<float>\"\n      }\n    }\n  ],\n  \"additional_dropoffs\": [\n    {\n      \"address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"provider_name\": \"<string>\",\n        \"provider_id\": \"<string>\"\n      },\n      \"coordinates\": {\n        \"lat\": \"<float>\",\n        \"lng\": \"<float>\"\n      }\n    },\n    {\n      \"address\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\",\n        \"city\": \"<string>\",\n        \"state\": \"<string>\",\n        \"postal_code\": \"<string>\",\n        \"country_code\": \"<string>\",\n        \"provider_name\": \"<string>\",\n        \"provider_id\": \"<string>\"\n      },\n      \"coordinates\": {\n        \"lat\": \"<float>\",\n        \"lng\": \"<float>\"\n      }\n    }\n  ],\n  \"additional_passengers\": [\n    {\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"email\": \"<email>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"phone_number\": \"<string>\",\n      \"email\": \"<email>\"\n    }\n  ],\n  \"scheduled_at\": \"<dateTime>\",\n  \"reference_code\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5680430b-403e-454b-87ba-c302bf455794",
+              "name": "Order created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"product_id\": \"product-uuid-123\",\n  \"passenger\": {\n    \"name\": \"John Doe\",\n    \"phone_number\": \"+1234567890\",\n    \"email\": \"john.doe@company.com\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"123 Main St\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7128,\n      \"lng\": -74.006\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"456 Broadway\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7589,\n      \"lng\": -73.9851\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"business_id\": \"782903f7-2ae1-7dd8-60c8-40b9c266ee2c\",\n  \"product_id\": \"string\",\n  \"status\": \"Rejected\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"2024-09-18T03:23:10.123Z\",\n  \"driver\": {\n    \"name\": \"string\",\n    \"phone_number\": \"string\",\n    \"vehicle\": {\n      \"make\": \"string\",\n      \"model\": \"string\",\n      \"color\": \"string\",\n      \"license_plate\": \"string\"\n    }\n  },\n  \"reference_code\": \"string\",\n  \"created_at\": \"1985-05-20T21:30:09.594Z\",\n  \"updated_at\": \"1992-02-24T00:53:17.581Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0344b561-d1c6-4b6b-b653-2d62a775ba0f",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"product_id\": \"product-uuid-123\",\n  \"passenger\": {\n    \"name\": \"John Doe\",\n    \"phone_number\": \"+1234567890\",\n    \"email\": \"john.doe@company.com\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"123 Main St\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7128,\n      \"lng\": -74.006\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"456 Broadway\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7589,\n      \"lng\": -73.9851\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "839b6d9b-15c6-4d01-9ff6-2c667ba75127",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"product_id\": \"product-uuid-123\",\n  \"passenger\": {\n    \"name\": \"John Doe\",\n    \"phone_number\": \"+1234567890\",\n    \"email\": \"john.doe@company.com\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"123 Main St\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7128,\n      \"lng\": -74.006\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"456 Broadway\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7589,\n      \"lng\": -73.9851\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c007e73b-cd3a-4124-81cd-b640f5f5fe4d",
+              "name": "Too Many Requests - rate limit exceeded (16 req/sec)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"product_id\": \"product-uuid-123\",\n  \"passenger\": {\n    \"name\": \"John Doe\",\n    \"phone_number\": \"+1234567890\",\n    \"email\": \"john.doe@company.com\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"123 Main St\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7128,\n      \"lng\": -74.006\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"456 Broadway\",\n      \"city\": \"New York\",\n      \"country_code\": \"US\"\n    },\n    \"coordinates\": {\n      \"lat\": 40.7589,\n      \"lng\": -73.9851\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d6f9ca5d-9c41-4eed-bbff-b93b40351de8",
+          "name": "Get Order Status",
+          "request": {
+            "name": "Get Order Status",
+            "description": {
+              "content": "Retrieve the current status and details of an existing order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "businessId",
+                  "value": "<uuid>",
+                  "description": "(Required) Company UUID (business_id)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c80aa799-9eca-4cc0-bca0-00cfa61886ca",
+              "name": "Order details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "businessId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"business_id\": \"782903f7-2ae1-7dd8-60c8-40b9c266ee2c\",\n  \"product_id\": \"string\",\n  \"status\": \"Rejected\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"2024-09-18T03:23:10.123Z\",\n  \"driver\": {\n    \"name\": \"string\",\n    \"phone_number\": \"string\",\n    \"vehicle\": {\n      \"make\": \"string\",\n      \"model\": \"string\",\n      \"color\": \"string\",\n      \"license_plate\": \"string\"\n    }\n  },\n  \"reference_code\": \"string\",\n  \"created_at\": \"1985-05-20T21:30:09.594Z\",\n  \"updated_at\": \"1992-02-24T00:53:17.581Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "139cdd64-147e-452e-a962-cd15475cbe2a",
+              "name": "Order not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "businessId",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e786a2d6-02d7-4a0a-adf0-6549e629684d",
+          "name": "Update an Order",
+          "request": {
+            "name": "Update an Order",
+            "description": {
+              "content": "Update details of an existing pending or reserved order.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "orders",
+                ":orderId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"<dateTime>\",\n  \"reference_code\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e4d0af9a-9782-448d-8b99-eb716c5f5c70",
+              "name": "Order updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"<dateTime>\",\n  \"reference_code\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"business_id\": \"782903f7-2ae1-7dd8-60c8-40b9c266ee2c\",\n  \"product_id\": \"string\",\n  \"status\": \"Rejected\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"2024-09-18T03:23:10.123Z\",\n  \"driver\": {\n    \"name\": \"string\",\n    \"phone_number\": \"string\",\n    \"vehicle\": {\n      \"make\": \"string\",\n      \"model\": \"string\",\n      \"color\": \"string\",\n      \"license_plate\": \"string\"\n    }\n  },\n  \"reference_code\": \"string\",\n  \"created_at\": \"1985-05-20T21:30:09.594Z\",\n  \"updated_at\": \"1992-02-24T00:53:17.581Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17ae77aa-67c4-4049-a92f-60e55b990c90",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"<dateTime>\",\n  \"reference_code\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c494874-53a4-4101-96d0-cc85b3149b6b",
+              "name": "Order not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"passenger\": {\n    \"name\": \"<string>\",\n    \"phone_number\": \"<string>\",\n    \"email\": \"<email>\"\n  },\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"scheduled_at\": \"<dateTime>\",\n  \"reference_code\": \"<string>\",\n  \"notes\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e0013c86-9a5a-4c04-a55d-20feeec03bfc",
+          "name": "Cancel an Order",
+          "request": {
+            "name": "Cancel an Order",
+            "description": {
+              "content": "Cancel an existing order that has not yet been completed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "orders",
+                ":orderId",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderId",
+                  "description": "(Required) Unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "567ebd3e-c1c2-4502-8116-cc2b090df438",
+              "name": "Order cancelled successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "131e9fe0-09d6-488e-808c-2681732fe6e5",
+              "name": "Bad request - order cannot be cancelled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c927eb4-559a-4f96-8f04-90f4bdb8a37c",
+              "name": "Order not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "orders",
+                    ":orderId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderId",
+                      "description": "(Required) Unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"status\": 2421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f75813a-85bc-4a2b-88fd-cdc44c4cd428",
+          "name": "Get Price Estimate",
+          "request": {
+            "name": "Get Price Estimate",
+            "description": {
+              "content": "Get an estimated price for a potential ride before booking.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "price-estimate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"product_id\": \"<string>\",\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "83351159-d383-46e9-b6bf-c8aeb2b4f1a7",
+              "name": "Price estimate",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "price-estimate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_id\": \"<uuid>\",\n  \"product_id\": \"<string>\",\n  \"pickup\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  },\n  \"dropoff\": {\n    \"address\": {\n      \"line1\": \"<string>\",\n      \"line2\": \"<string>\",\n      \"city\": \"<string>\",\n      \"state\": \"<string>\",\n      \"postal_code\": \"<string>\",\n      \"country_code\": \"<string>\",\n      \"provider_name\": \"<string>\",\n      \"provider_id\": \"<string>\"\n    },\n    \"coordinates\": {\n      \"lat\": \"<float>\",\n      \"lng\": \"<float>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"amount\": 3524.534586653536,\n  \"currency\": \"string\",\n  \"minimum\": 9031.525900412435,\n  \"maximum\": 4482.337459681695\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://business-api.gett.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "de3c7995-f8ac-4767-9abe-bf98b54ca35a",
+    "name": "Gett Business Authentication Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.\n\n\nContact Support:\n Name: Gett Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

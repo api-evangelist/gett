@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gett Business Authentication Webhooks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Webhook Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/subscribers",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Retrieve all webhook subscriptions for a business."
+        },
+        {
+          "info": {
+            "name": "Create Webhook Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business-api.gett.com/v1/subscribers",
+            "params": [
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribe to webhook events for real-time order status updates."
+        },
+        {
+          "info": {
+            "name": "Delete Webhook Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://business-api.gett.com/v1/subscribers/:subscriberId",
+            "params": [
+              {
+                "name": "subscriberId",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID to delete"
+              },
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID"
+              }
+            ]
+          },
+          "docs": "Remove an existing webhook subscription."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,153 @@
+{
+  "item": [
+    {
+      "id": "867ef32c-aaa5-4575-97d4-0a90c6de17be",
+      "name": "Products",
+      "description": {
+        "content": "Available ride products and services",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "aee42fb8-4bc9-484f-bb2f-4758f5474ba5",
+          "name": "Get Available Products",
+          "request": {
+            "name": "Get Available Products",
+            "description": {
+              "content": "Retrieve available ride products/services for a given location. Avoid hardcoding product IDs as they may change.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "businessId",
+                  "value": "<uuid>",
+                  "description": "(Required) Company UUID"
+                },
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<float>",
+                  "description": "(Required) Pickup latitude"
+                },
+                {
+                  "disabled": false,
+                  "key": "lng",
+                  "value": "<float>",
+                  "description": "(Required) Pickup longitude"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d3c57943-bff8-453e-8eb7-be726bb9c45c",
+              "name": "List of available products",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "businessId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "lat",
+                      "value": "<float>"
+                    },
+                    {
+                      "key": "lng",
+                      "value": "<float>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"products\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"capacity\": 7447,\n      \"vehicle_type\": \"string\",\n      \"eta_minutes\": 2338,\n      \"price_estimate\": {\n        \"amount\": 4707.308934611495,\n        \"currency\": \"string\",\n        \"minimum\": 7156.031417078551,\n        \"maximum\": 2873.654634496481\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"description\": \"string\",\n      \"capacity\": 3557,\n      \"vehicle_type\": \"string\",\n      \"eta_minutes\": 960,\n      \"price_estimate\": {\n        \"amount\": 9681.847532955891,\n        \"currency\": \"string\",\n        \"minimum\": 5595.601545972666,\n        \"maximum\": 2500.794143075583\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://business-api.gett.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "65343113-fc32-458f-9a90-0eb4a8609f07",
+    "name": "Gett Business Authentication Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.\n\n\nContact Support:\n Name: Gett Developer Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gett Business Authentication Orders API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Ride Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business-api.gett.com/v1/orders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Book an on-demand or pre-scheduled ride. Supports single passenger, multi-passenger, multi-stop, and multi-dropoff scenarios.\n"
+        },
+        {
+          "info": {
+            "name": "Get Order Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business-api.gett.com/v1/orders/:orderId",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              },
+              {
+                "name": "businessId",
+                "value": "",
+                "type": "query",
+                "description": "Company UUID (business_id)"
+              }
+            ]
+          },
+          "docs": "Retrieve the current status and details of an existing order."
+        },
+        {
+          "info": {
+            "name": "Update an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business-api.gett.com/v1/orders/:orderId",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update details of an existing pending or reserved order."
+        },
+        {
+          "info": {
+            "name": "Cancel an Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business-api.gett.com/v1/orders/:orderId/cancel",
+            "params": [
+              {
+                "name": "orderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel an existing order that has not yet been completed."
+        },
+        {
+          "info": {
+            "name": "Get Price Estimate",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business-api.gett.com/v1/price-estimate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get an estimated price for a potential ride before booking."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
