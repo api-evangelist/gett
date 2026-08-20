@@ -118,6 +118,8 @@ apis:
   humanURL: https://developer.gett.com/docs/introduction
   baseURL: https://business-api.gett.com
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -145,6 +147,8 @@ apis:
   humanURL: https://developer.gett.com/docs/introduction
   baseURL: https://business-api.gett.com
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -172,6 +176,8 @@ apis:
   humanURL: https://developer.gett.com/docs/introduction
   baseURL: https://business-api.gett.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
