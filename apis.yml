@@ -6,6 +6,18 @@ description: >
   expense management systems. The API supports multi-passenger, multi-stop,
   and multi-dropoff scenarios and connects businesses with a global supplier
   network of taxis, black cars, and private-hire vehicles.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
