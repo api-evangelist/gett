@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Gett Business Authentication Orders API
-  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
-
-    '
+  title: Gett Business Orders API
+  description: REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
   version: '1.0'
   contact:
     name: Gett Developer Support
@@ -21,9 +19,7 @@ paths:
   /v1/orders:
     post:
       summary: Create a Ride Order
-      description: 'Book an on-demand or pre-scheduled ride. Supports single passenger, multi-passenger, multi-stop, and multi-dropoff scenarios.
-
-        '
+      description: Book an on-demand or pre-scheduled ride. Supports single passenger, multi-passenger, multi-stop, and multi-dropoff scenarios.
       operationId: createOrder
       tags:
       - Orders
@@ -236,13 +232,18 @@ paths:
                 $ref: '#/components/schemas/PriceEstimate'
 components:
   schemas:
-    Location:
+    Error:
       type: object
       properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
     Coordinates:
       type: object
       required:
@@ -257,52 +258,6 @@ components:
           type: number
           format: float
           description: Longitude
-    UpdateOrderRequest:
-      type: object
-      properties:
-        business_id:
-          type: string
-          format: uuid
-        passenger:
-          $ref: '#/components/schemas/Passenger'
-        pickup:
-          $ref: '#/components/schemas/Location'
-        dropoff:
-          $ref: '#/components/schemas/Location'
-        scheduled_at:
-          type: string
-          format: date-time
-        reference_code:
-          type: string
-        notes:
-          type: string
-    Address:
-      type: object
-      properties:
-        line1:
-          type: string
-          description: Street address line 1
-        line2:
-          type: string
-          description: Street address line 2
-        city:
-          type: string
-          description: City name
-        state:
-          type: string
-          description: State or region
-        postal_code:
-          type: string
-          description: Postal/ZIP code
-        country_code:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
-        provider_name:
-          type: string
-          description: Address provider name (e.g., Google)
-        provider_id:
-          type: string
-          description: Provider-specific location ID for best accuracy
     CreateOrderRequest:
       type: object
       required:
@@ -352,6 +307,93 @@ components:
         notes:
           type: string
           description: Special instructions for the driver
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          description: Street address line 1
+        line2:
+          type: string
+          description: Street address line 2
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: State or region
+        postal_code:
+          type: string
+          description: Postal/ZIP code
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        provider_name:
+          type: string
+          description: Address provider name (e.g., Google)
+        provider_id:
+          type: string
+          description: Provider-specific location ID for best accuracy
+    UpdateOrderRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+        notes:
+          type: string
+    PriceEstimate:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Estimated price amount
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        minimum:
+          type: number
+          format: float
+          description: Minimum estimated price
+        maximum:
+          type: number
+          format: float
+          description: Maximum estimated price
+    Passenger:
+      type: object
+      required:
+      - name
+      - phone_number
+      properties:
+        name:
+          type: string
+          description: Passenger full name
+        phone_number:
+          type: string
+          description: Passenger phone number (E.164 format)
+        email:
+          type: string
+          format: email
+          description: Passenger email address
     Order:
       type: object
       properties:
@@ -416,52 +458,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    Passenger:
-      type: object
-      required:
-      - name
-      - phone_number
-      properties:
-        name:
-          type: string
-          description: Passenger full name
-        phone_number:
-          type: string
-          description: Passenger phone number (E.164 format)
-        email:
-          type: string
-          format: email
-          description: Passenger email address
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        status:
-          type: integer
-          description: HTTP status code
-    PriceEstimate:
-      type: object
-      properties:
-        amount:
-          type: number
-          format: float
-          description: Estimated price amount
-        currency:
-          type: string
-          description: ISO 4217 currency code
-        minimum:
-          type: number
-          format: float
-          description: Minimum estimated price
-        maximum:
-          type: number
-          format: float
-          description: Maximum estimated price
   securitySchemes:
     bearerAuth:
       type: http

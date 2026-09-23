@@ -1,12 +1,7 @@
 {
   "provider": "gett",
   "sources": [
-    "gett-authentication-api-openapi.yml",
-    "gett-employee-management-api-openapi.yml",
-    "gett-finance-api-openapi.yml",
-    "gett-orders-api-openapi.yml",
-    "gett-products-api-openapi.yml",
-    "gett-webhooks-api-openapi.yml"
+    "_original/openapi.yml"
   ],
   "outputs": [
     "gett-authentication-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "gett-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gett-employee-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gett-finance-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gett-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gett-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gett-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

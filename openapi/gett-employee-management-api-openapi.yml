@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Gett Business Authentication Employee Management API
-  description: 'REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
-
-    '
+  title: Gett Business Employee Management API
+  description: REST API for corporate ground transportation that enables businesses to book on-demand and pre-scheduled rides (up to 30 days in advance), manage employees, retrieve reports, access receipts, and receive real-time webhook notifications about order status changes.
   version: '1.0'
   contact:
     name: Gett Developer Support
@@ -211,6 +209,21 @@ paths:
                       $ref: '#/components/schemas/PolicyGroup'
 components:
   schemas:
+    PolicyGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Policy group identifier
+        name:
+          type: string
+          description: Policy group name
+        description:
+          type: string
+          description: Policy group description
+        rules:
+          type: object
+          description: Policy rules and restrictions
     Employee:
       type: object
       properties:
@@ -246,21 +259,18 @@ components:
         updated_at:
           type: string
           format: date-time
-    PolicyGroup:
+    Error:
       type: object
       properties:
-        id:
+        error:
           type: string
-          description: Policy group identifier
-        name:
+          description: Error code
+        message:
           type: string
-          description: Policy group name
-        description:
-          type: string
-          description: Policy group description
-        rules:
-          type: object
-          description: Policy rules and restrictions
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
     CreateEmployeeRequest:
       type: object
       required:
@@ -285,18 +295,6 @@ components:
         policy_group_id:
           type: string
           description: Policy group to assign the employee to
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        status:
-          type: integer
-          description: HTTP status code
     UpdateEmployeeRequest:
       type: object
       properties:
