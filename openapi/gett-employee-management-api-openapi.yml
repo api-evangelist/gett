@@ -209,21 +209,6 @@ paths:
                       $ref: '#/components/schemas/PolicyGroup'
 components:
   schemas:
-    PolicyGroup:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Policy group identifier
-        name:
-          type: string
-          description: Policy group name
-        description:
-          type: string
-          description: Policy group description
-        rules:
-          type: object
-          description: Policy rules and restrictions
     Employee:
       type: object
       properties:
@@ -259,18 +244,26 @@ components:
         updated_at:
           type: string
           format: date-time
-    Error:
+    UpdateEmployeeRequest:
       type: object
       properties:
-        error:
+        business_id:
           type: string
-          description: Error code
-        message:
+          format: uuid
+        name:
           type: string
-          description: Human-readable error description
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        policy_group_id:
+          type: string
         status:
-          type: integer
-          description: HTTP status code
+          type: string
+          enum:
+          - active
+          - inactive
     CreateEmployeeRequest:
       type: object
       required:
@@ -295,26 +288,33 @@ components:
         policy_group_id:
           type: string
           description: Policy group to assign the employee to
-    UpdateEmployeeRequest:
+    PolicyGroup:
       type: object
       properties:
-        business_id:
+        id:
           type: string
-          format: uuid
+          description: Policy group identifier
         name:
           type: string
-        email:
+          description: Policy group name
+        description:
           type: string
-          format: email
-        phone_number:
+          description: Policy group description
+        rules:
+          type: object
+          description: Policy rules and restrictions
+    Error:
+      type: object
+      properties:
+        error:
           type: string
-        policy_group_id:
+          description: Error code
+        message:
           type: string
+          description: Human-readable error description
         status:
-          type: string
-          enum:
-          - active
-          - inactive
+          type: integer
+          description: HTTP status code
   securitySchemes:
     bearerAuth:
       type: http
