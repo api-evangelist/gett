@@ -209,61 +209,6 @@ paths:
                       $ref: '#/components/schemas/PolicyGroup'
 components:
   schemas:
-    Employee:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Employee unique identifier
-        business_id:
-          type: string
-          format: uuid
-          description: Company UUID
-        name:
-          type: string
-          description: Employee full name
-        email:
-          type: string
-          format: email
-          description: Employee email address
-        phone_number:
-          type: string
-          description: Employee phone number
-        policy_group_id:
-          type: string
-          description: Assigned policy group identifier
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
-          description: Employee account status
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    UpdateEmployeeRequest:
-      type: object
-      properties:
-        business_id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        phone_number:
-          type: string
-        policy_group_id:
-          type: string
-        status:
-          type: string
-          enum:
-          - active
-          - inactive
     CreateEmployeeRequest:
       type: object
       required:
@@ -303,6 +248,26 @@ components:
         rules:
           type: object
           description: Policy rules and restrictions
+    UpdateEmployeeRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone_number:
+          type: string
+        policy_group_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
     Error:
       type: object
       properties:
@@ -315,6 +280,41 @@ components:
         status:
           type: integer
           description: HTTP status code
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Employee unique identifier
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        name:
+          type: string
+          description: Employee full name
+        email:
+          type: string
+          format: email
+          description: Employee email address
+        phone_number:
+          type: string
+          description: Employee phone number
+        policy_group_id:
+          type: string
+          description: Assigned policy group identifier
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+          description: Employee account status
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
   securitySchemes:
     bearerAuth:
       type: http

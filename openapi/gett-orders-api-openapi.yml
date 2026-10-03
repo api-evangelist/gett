@@ -232,6 +232,55 @@ paths:
                 $ref: '#/components/schemas/PriceEstimate'
 components:
   schemas:
+    CreateOrderRequest:
+      type: object
+      required:
+      - business_id
+      - product_id
+      - passenger
+      - pickup
+      - dropoff
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier (do not hardcode)
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        stops:
+          type: array
+          description: Intermediate stops for multi-stop rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_dropoffs:
+          type: array
+          description: Additional dropoff locations for multi-dropoff rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_passengers:
+          type: array
+          description: Additional passengers for multi-passenger rides
+          items:
+            $ref: '#/components/schemas/Passenger'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: 'Scheduled pickup time for pre-booked rides (up to 30 days in advance). If omitted, the ride is on-demand.
+
+            '
+        reference_code:
+          type: string
+          description: Business reference code for expense tracking
+        notes:
+          type: string
+          description: Special instructions for the driver
     Address:
       type: object
       properties:
@@ -296,55 +345,41 @@ components:
           type: string
         notes:
           type: string
-    CreateOrderRequest:
+    Passenger:
       type: object
       required:
-      - business_id
-      - product_id
-      - passenger
-      - pickup
-      - dropoff
+      - name
+      - phone_number
       properties:
-        business_id:
+        name:
           type: string
-          format: uuid
-          description: Company UUID
-        product_id:
+          description: Passenger full name
+        phone_number:
           type: string
-          description: Ride product identifier (do not hardcode)
-        passenger:
-          $ref: '#/components/schemas/Passenger'
-        pickup:
-          $ref: '#/components/schemas/Location'
-        dropoff:
-          $ref: '#/components/schemas/Location'
-        stops:
-          type: array
-          description: Intermediate stops for multi-stop rides
-          items:
-            $ref: '#/components/schemas/Location'
-        additional_dropoffs:
-          type: array
-          description: Additional dropoff locations for multi-dropoff rides
-          items:
-            $ref: '#/components/schemas/Location'
-        additional_passengers:
-          type: array
-          description: Additional passengers for multi-passenger rides
-          items:
-            $ref: '#/components/schemas/Passenger'
-        scheduled_at:
+          description: Passenger phone number (E.164 format)
+        email:
           type: string
-          format: date-time
-          description: 'Scheduled pickup time for pre-booked rides (up to 30 days in advance). If omitted, the ride is on-demand.
-
-            '
-        reference_code:
+          format: email
+          description: Passenger email address
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Error:
+      type: object
+      properties:
+        error:
           type: string
-          description: Business reference code for expense tracking
-        notes:
+          description: Error code
+        message:
           type: string
-          description: Special instructions for the driver
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
     Order:
       type: object
       properties:
@@ -423,41 +458,6 @@ components:
           type: number
           format: float
           description: Longitude
-    Location:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
-    Passenger:
-      type: object
-      required:
-      - name
-      - phone_number
-      properties:
-        name:
-          type: string
-          description: Passenger full name
-        phone_number:
-          type: string
-          description: Passenger phone number (E.164 format)
-        email:
-          type: string
-          format: email
-          description: Passenger email address
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        status:
-          type: integer
-          description: HTTP status code
   securitySchemes:
     bearerAuth:
       type: http
