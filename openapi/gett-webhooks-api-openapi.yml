@@ -108,24 +108,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    CreateSubscriptionRequest:
-      type: object
-      required:
-      - event_types
-      - hook_address
-      properties:
-        event_types:
-          type: array
-          items:
-            type: string
-            enum:
-            - status_changed
-            - business_report
-          description: Event types to subscribe to
-        hook_address:
-          type: string
-          format: uri
-          description: Publicly accessible HTTPS endpoint to receive webhook events
     Subscription:
       type: object
       properties:
@@ -159,6 +141,24 @@ components:
           type: string
           format: date-time
           description: Last update timestamp (RFC 3339)
+    CreateSubscriptionRequest:
+      type: object
+      required:
+      - event_types
+      - hook_address
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - status_changed
+            - business_report
+          description: Event types to subscribe to
+        hook_address:
+          type: string
+          format: uri
+          description: Publicly accessible HTTPS endpoint to receive webhook events
     Error:
       type: object
       properties:

@@ -232,154 +232,6 @@ paths:
                 $ref: '#/components/schemas/PriceEstimate'
 components:
   schemas:
-    CreateOrderRequest:
-      type: object
-      required:
-      - business_id
-      - product_id
-      - passenger
-      - pickup
-      - dropoff
-      properties:
-        business_id:
-          type: string
-          format: uuid
-          description: Company UUID
-        product_id:
-          type: string
-          description: Ride product identifier (do not hardcode)
-        passenger:
-          $ref: '#/components/schemas/Passenger'
-        pickup:
-          $ref: '#/components/schemas/Location'
-        dropoff:
-          $ref: '#/components/schemas/Location'
-        stops:
-          type: array
-          description: Intermediate stops for multi-stop rides
-          items:
-            $ref: '#/components/schemas/Location'
-        additional_dropoffs:
-          type: array
-          description: Additional dropoff locations for multi-dropoff rides
-          items:
-            $ref: '#/components/schemas/Location'
-        additional_passengers:
-          type: array
-          description: Additional passengers for multi-passenger rides
-          items:
-            $ref: '#/components/schemas/Passenger'
-        scheduled_at:
-          type: string
-          format: date-time
-          description: 'Scheduled pickup time for pre-booked rides (up to 30 days in advance). If omitted, the ride is on-demand.
-
-            '
-        reference_code:
-          type: string
-          description: Business reference code for expense tracking
-        notes:
-          type: string
-          description: Special instructions for the driver
-    Address:
-      type: object
-      properties:
-        line1:
-          type: string
-          description: Street address line 1
-        line2:
-          type: string
-          description: Street address line 2
-        city:
-          type: string
-          description: City name
-        state:
-          type: string
-          description: State or region
-        postal_code:
-          type: string
-          description: Postal/ZIP code
-        country_code:
-          type: string
-          description: ISO 3166-1 alpha-2 country code
-        provider_name:
-          type: string
-          description: Address provider name (e.g., Google)
-        provider_id:
-          type: string
-          description: Provider-specific location ID for best accuracy
-    PriceEstimate:
-      type: object
-      properties:
-        amount:
-          type: number
-          format: float
-          description: Estimated price amount
-        currency:
-          type: string
-          description: ISO 4217 currency code
-        minimum:
-          type: number
-          format: float
-          description: Minimum estimated price
-        maximum:
-          type: number
-          format: float
-          description: Maximum estimated price
-    UpdateOrderRequest:
-      type: object
-      properties:
-        business_id:
-          type: string
-          format: uuid
-        passenger:
-          $ref: '#/components/schemas/Passenger'
-        pickup:
-          $ref: '#/components/schemas/Location'
-        dropoff:
-          $ref: '#/components/schemas/Location'
-        scheduled_at:
-          type: string
-          format: date-time
-        reference_code:
-          type: string
-        notes:
-          type: string
-    Passenger:
-      type: object
-      required:
-      - name
-      - phone_number
-      properties:
-        name:
-          type: string
-          description: Passenger full name
-        phone_number:
-          type: string
-          description: Passenger phone number (E.164 format)
-        email:
-          type: string
-          format: email
-          description: Passenger email address
-    Location:
-      type: object
-      properties:
-        address:
-          $ref: '#/components/schemas/Address'
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        status:
-          type: integer
-          description: HTTP status code
     Order:
       type: object
       properties:
@@ -444,6 +296,25 @@ components:
         updated_at:
           type: string
           format: date-time
+    UpdateOrderRequest:
+      type: object
+      properties:
+        business_id:
+          type: string
+          format: uuid
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        scheduled_at:
+          type: string
+          format: date-time
+        reference_code:
+          type: string
+        notes:
+          type: string
     Coordinates:
       type: object
       required:
@@ -458,6 +329,135 @@ components:
           type: number
           format: float
           description: Longitude
+    CreateOrderRequest:
+      type: object
+      required:
+      - business_id
+      - product_id
+      - passenger
+      - pickup
+      - dropoff
+      properties:
+        business_id:
+          type: string
+          format: uuid
+          description: Company UUID
+        product_id:
+          type: string
+          description: Ride product identifier (do not hardcode)
+        passenger:
+          $ref: '#/components/schemas/Passenger'
+        pickup:
+          $ref: '#/components/schemas/Location'
+        dropoff:
+          $ref: '#/components/schemas/Location'
+        stops:
+          type: array
+          description: Intermediate stops for multi-stop rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_dropoffs:
+          type: array
+          description: Additional dropoff locations for multi-dropoff rides
+          items:
+            $ref: '#/components/schemas/Location'
+        additional_passengers:
+          type: array
+          description: Additional passengers for multi-passenger rides
+          items:
+            $ref: '#/components/schemas/Passenger'
+        scheduled_at:
+          type: string
+          format: date-time
+          description: 'Scheduled pickup time for pre-booked rides (up to 30 days in advance). If omitted, the ride is on-demand.
+
+            '
+        reference_code:
+          type: string
+          description: Business reference code for expense tracking
+        notes:
+          type: string
+          description: Special instructions for the driver
+    PriceEstimate:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Estimated price amount
+        currency:
+          type: string
+          description: ISO 4217 currency code
+        minimum:
+          type: number
+          format: float
+          description: Minimum estimated price
+        maximum:
+          type: number
+          format: float
+          description: Maximum estimated price
+    Location:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
+    Passenger:
+      type: object
+      required:
+      - name
+      - phone_number
+      properties:
+        name:
+          type: string
+          description: Passenger full name
+        phone_number:
+          type: string
+          description: Passenger phone number (E.164 format)
+        email:
+          type: string
+          format: email
+          description: Passenger email address
+    Address:
+      type: object
+      properties:
+        line1:
+          type: string
+          description: Street address line 1
+        line2:
+          type: string
+          description: Street address line 2
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: State or region
+        postal_code:
+          type: string
+          description: Postal/ZIP code
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+        provider_name:
+          type: string
+          description: Address provider name (e.g., Google)
+        provider_id:
+          type: string
+          description: Provider-specific location ID for best accuracy
   securitySchemes:
     bearerAuth:
       type: http
