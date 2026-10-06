@@ -42,7 +42,7 @@ tags:
 - Business Travel
 - Expense Management
 created: '2026-06-13'
-modified: '2026-09-16'
+modified: '2026-10-06'
 url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 apis:
@@ -209,6 +209,8 @@ apis:
   - type: FinOps
     url: https://raw.githubusercontent.com/api-evangelist/gett/refs/heads/main/finops/finops.yml
 common:
+- url: https://www.gett.com/blog/
+  type: Blog
 - type: CapabilityMap
   url: capabilities/gett-capability-edges.yml
   name: Gett Business Capability Map
