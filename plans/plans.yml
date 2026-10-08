@@ -52,3 +52,16 @@ plans:
       description: >
         Business portal where admin users can configure API credentials
         under Settings > Integrations Setup.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units: []
+  plans:
+  - name: Corporate Business API
+    access: enterprise
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
