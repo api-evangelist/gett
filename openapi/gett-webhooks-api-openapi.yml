@@ -141,6 +141,18 @@ components:
           type: string
           format: date-time
           description: Last update timestamp (RFC 3339)
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error description
+        status:
+          type: integer
+          description: HTTP status code
     CreateSubscriptionRequest:
       type: object
       required:
@@ -159,18 +171,6 @@ components:
           type: string
           format: uri
           description: Publicly accessible HTTPS endpoint to receive webhook events
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code
-        message:
-          type: string
-          description: Human-readable error description
-        status:
-          type: integer
-          description: HTTP status code
   securitySchemes:
     bearerAuth:
       type: http
